@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import hookActions from "./actions/hooksActions";
+import Input from "./components/Input/Input";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -25,9 +26,24 @@ function App() {
         },
         []
     );
+
+    if(!state.secretWord){
+        return (
+            <div className="container" data-test="spinner">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading ...</span>
+                </div>
+                <p>Loading secret word </p>
+            </div>
+        )
+    }
+
     return (
-        <div data-test="app-component">
-            kkk
+        <div
+            data-test="app-component"
+            className="container"
+        >
+            <Input secretWord={state.secretWord} />
         </div>
     );
 }

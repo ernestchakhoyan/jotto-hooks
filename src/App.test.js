@@ -13,13 +13,6 @@ const setup = () => {
     return mount(<App />);
 };
 
-it("renders without crashing", () => {
-    const wrapper = setup();
-    const component = findByTestAttr(wrapper, "app-component");
-    expect(component.length).toBe(1);
-});
-
-
 describe("> getSecretWord call", () => {
     it("should getSecretWord calls on App mount", () => {
         setup();
@@ -33,5 +26,21 @@ describe("> getSecretWord call", () => {
         mockGetSecretWord.mockClear();
         wrapper.setProps();
         expect(mockGetSecretWord).not.toHaveBeenCalled()
+    });
+});
+
+describe("> secretWord prop is null", () => {
+    let wrapper;
+    beforeEach(function() {
+        wrapper = setup(null);
+    });
+    it("should not render app if secretWord is null", () => {
+        const appComponent = findByTestAttr(wrapper, "app-component");
+        expect(appComponent.exists()).toBe(false);
+    });
+
+    it("should render Spinner when secretWord is null", () => {
+        const spinner = findByTestAttr(wrapper, "spinner");
+        expect(spinner.exists()).toBe(true);
     });
 });
